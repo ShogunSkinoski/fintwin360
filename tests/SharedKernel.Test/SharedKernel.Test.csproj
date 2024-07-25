@@ -19,7 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\sharedkernel\SharedKernel.csproj" />
+    <ProjectReference Include="..\..\src\SharedKernel\SharedKernel.csproj" />
+    <ProjectReference Include="..\TestHelper\TestHelpers.csproj" />
   </ItemGroup>
 
   <ItemGroup>

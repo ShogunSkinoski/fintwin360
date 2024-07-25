@@ -18,4 +18,17 @@ public class MemberTest
         // Then
         Assert.Equal(id, member.Id);
     }
+
+    [Theory]
+    [InlineData(AccountType.Standard, "test@gmail.com", "test123.")]
+    public void ShouldCreate_Member_WithDeletedAttributes(AccountType accountType, string email, string password)
+    {
+        // Given
+        var id = Guid.NewGuid();
+        // When
+        var member = Member.Create(id, email, password, accountType);
+        // Then
+        Assert.False(member.IsDeleted);
+        Assert.Null(member.DeletedAt);
+    }
 }

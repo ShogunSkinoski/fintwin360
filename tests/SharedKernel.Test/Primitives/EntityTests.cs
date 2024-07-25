@@ -1,4 +1,4 @@
-﻿using SharedKernel.primitives;
+﻿using SharedKernel.Primitives;
 
 namespace SharedKernel.Test.primitives;
 

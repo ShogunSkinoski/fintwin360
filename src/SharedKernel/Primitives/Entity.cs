@@ -1,4 +1,4 @@
-﻿namespace SharedKernel.primitives;
+﻿namespace SharedKernel.Primitives;
 public abstract class Entity(Guid id) : IEquatable<Entity>
 {
     public Guid Id { get; private set; } = id;
