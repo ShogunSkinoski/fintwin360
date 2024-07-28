@@ -16,7 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\domain\Domain.csproj" />
     <ProjectReference Include="..\..\src\domain\Domain.csproj" />
     <ProjectReference Include="..\..\src\SharedKernel\SharedKernel.csproj" />
     <ProjectReference Include="..\TestHelper\TestHelpers.csproj" />

@@ -49,14 +49,14 @@ namespace Application.Test.Member.Factories
             Assert.NotNull(member.MemberProfile);
             Assert.Equal(command.Name, member.MemberProfile.Name);
             Assert.Equal(command.Surname, member.MemberProfile.Surname);
-            Assert.Equal((EducationLevelCode)command.educationLevelCode, member.MemberProfile.EducationLevel.EducationCode);
-            Assert.Equal((EmploymentStatus)command.employmentStatusCode, member.MemberProfile.EmploymentStatus.Status);
-            Assert.Equal((EmploymentIndustry)command.employmentEmploymentIndustryCode, member.MemberProfile.EmploymentStatus.EmploymentIndustry);
+            Assert.Equal((EducationLevelCode)command.EducationLevelCode, member.MemberProfile.EducationLevel.EducationCode);
+            Assert.Equal((EmploymentStatus)command.EmploymentStatusCode, member.MemberProfile.EmploymentStatus.Status);
+            Assert.Equal((EmploymentIndustry)command.EmploymentIndustryCode, member.MemberProfile.EmploymentStatus.EmploymentIndustry);
             Assert.Equal(command.Country, member.MemberProfile.Address.Country);
             Assert.Equal(command.City, member.MemberProfile.Address.City);
             Assert.Equal(command.Street, member.MemberProfile.Address.Street);
-            Assert.Equal((ResidantialStatus)command.residentialStatusCode, member.MemberProfile.ResidentialInformation.Status);
-            Assert.Equal((ResidantialType)command.residentialTypeCode, member.MemberProfile.ResidentialInformation.Type);
+            Assert.Equal((ResidantialStatus)command.ResidentialStatusCode, member.MemberProfile.ResidentialInformation.Status);
+            Assert.Equal((ResidantialType)command.ResidentialTypeCode, member.MemberProfile.ResidentialInformation.Type);
             Assert.Equal(command.FamilySize, member.MemberProfile.FamilySize.Size);
         }
     }
