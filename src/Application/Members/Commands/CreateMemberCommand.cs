@@ -12,10 +12,10 @@ public sealed record CreateMemberCommand (
     string City,
     string Street,
     int AccountType,
-    int educationLevelCode,
-    int employmentStatusCode,
-    int employmentEmploymentIndustryCode,
-    int residentialStatusCode,
-    int residentialTypeCode,
+    int EducationLevelCode,
+    int EmploymentStatusCode,
+    int EmploymentIndustryCode,
+    int ResidentialStatusCode,
+    int ResidentialTypeCode,
     int FamilySize
     ) : ICommand<Result<Guid>>;

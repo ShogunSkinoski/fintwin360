@@ -19,19 +19,18 @@ public class MemberMappingProfile : Profile
                     (AccountType)cmd.AccountType
                 );
 
-                // Create and add profile
                 member.AddProfile(
                     cmd.Name,
                     cmd.Surname,
-                    new EducationInformation((EducationLevelCode)cmd.educationLevelCode),
+                    new EducationInformation((EducationLevelCode)cmd.EducationLevelCode),
                     new EmploymentInformation(
-                        (EmploymentIndustry)cmd.employmentEmploymentIndustryCode,
-                        (EmploymentStatus)cmd.employmentStatusCode
+                        (EmploymentIndustry)cmd.EmploymentIndustryCode,
+                        (EmploymentStatus)cmd.EmploymentStatusCode
                     ),
                     new Address(cmd.Street, cmd.City, cmd.Country),
                     new ResidentialInformation(
-                        (ResidantialStatus)cmd.residentialStatusCode,
-                        (ResidantialType)cmd.residentialTypeCode
+                        (ResidantialStatus)cmd.ResidentialStatusCode,
+                        (ResidantialType)cmd.ResidentialTypeCode
                     ),
                     new FamilySize(cmd.FamilySize)
                 );
