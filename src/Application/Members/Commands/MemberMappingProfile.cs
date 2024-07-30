@@ -1,9 +1,8 @@
-﻿using Application.Members.Commands;
-using AutoMapper;
+﻿using AutoMapper;
 using Domain.Members.Model;
 using Domain.Members.ValueObjects;
 
-namespace Application.Members.Factories;
+namespace Application.Members.Commands;
 
 public class MemberMappingProfile : Profile
 {
@@ -36,14 +35,6 @@ public class MemberMappingProfile : Profile
                 );
 
                 return member;
-            });
-
-
-        CreateMap<CreateMemberCommand, MemberProfile>()
-            .ConstructUsing((cmd, ctx) =>
-            {
-                var member = ctx.Mapper.Map<Member>(cmd);
-                return member.MemberProfile;
             });
     }
 }

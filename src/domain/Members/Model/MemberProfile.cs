@@ -6,7 +6,9 @@ namespace Domain.Members.Model;
 
 public class MemberProfile : Entity, IAuditableEntity, IDeletableEntity
 {
-    private MemberProfile(
+    protected MemberProfile() : base(Guid.NewGuid()) { } // This constructor is for EF Core
+
+    public MemberProfile(
             Guid id,
             string name,
             string surname,
@@ -44,6 +46,7 @@ public class MemberProfile : Entity, IAuditableEntity, IDeletableEntity
     {
         return new MemberProfile(id, name, surname, educationLevel, employmentStatus, address, residentialInformation, familySize, member);
     }
+
     public string Name { get; private set; }
     public string Surname { get; private set; }
     public EducationInformation EducationLevel { get; private set; }
@@ -53,7 +56,6 @@ public class MemberProfile : Entity, IAuditableEntity, IDeletableEntity
     public FamilySize FamilySize { get; private set; }
     public Member Member { get; private set; }
     public Guid MemberId { get; private set; }
-
     public DateTime CreatedAt { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
     public bool IsDeleted { get; private set; }
@@ -64,5 +66,4 @@ public class MemberProfile : Entity, IAuditableEntity, IDeletableEntity
         Address.Latitude = latitude;
         Address.Longitude = longitude;
     }
-
 }

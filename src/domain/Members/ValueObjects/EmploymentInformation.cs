@@ -38,20 +38,22 @@ namespace Domain.Members.ValueObjects
         Other
     }
 
-    public record class EmploymentInformation 
+    public class EmploymentInformation
     {
+        protected EmploymentInformation() { } // This constructor is for EF Core
+
         public EmploymentInformation(EmploymentIndustry industry, EmploymentStatus status)
         {
             EmploymentIndustry = industry;
             Status = status;
         }
+
         public static EmploymentInformation Create(EmploymentIndustry industry, EmploymentStatus status)
         {
             return new EmploymentInformation(industry, status);
         }
+
         public EmploymentIndustry EmploymentIndustry { get; private set; }
         public EmploymentStatus Status { get; private set; }
-
-        
     }
 }

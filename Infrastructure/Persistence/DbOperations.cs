@@ -18,9 +18,15 @@ public class DbOperations(ApplicationDbContext context) : IDbOperations
             : await _context.Set<TEntity>().FirstOrDefaultAsync(e => e.Id == id, cancellationToken: ct);
 
 
-    public Task InsertAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = default) where TEntity : Entity
+    public async Task InsertAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = default) where TEntity : Entity
     {
-        throw new NotImplementedException();
+        if (entity == null)
+        {
+            throw new ArgumentNullException(nameof(entity));
+        }
+
+        await _context.Set<TEntity>().AddAsync(entity, cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken);
     }
 
     public Task InsertRangeAsync<TEntity>(IReadOnlyCollection<TEntity> entities, CancellationToken cancellationToken = default) where TEntity : Entity

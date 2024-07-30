@@ -15,5 +15,13 @@ public sealed class ApplicationDbContext(
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         modelBuilder.ApplyUtcDateTimeConverter();
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<DataProtectionKey>(entity =>
+        {
+            entity.Property(e => e.FriendlyName).HasColumnType("varchar(255)");
+            entity.Property(e => e.Xml).HasColumnType("longtext");
+        });
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+
     }
 }

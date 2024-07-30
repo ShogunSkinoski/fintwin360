@@ -1,13 +1,13 @@
 ﻿using Domain.Members.Model;
-using Domain.Members.Port;
+using Domain.Members.Repository;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Repository;
 using Microsoft.EntityFrameworkCore;
 using SharedKernel.Abstractions;
 
-namespace Infrastructure.Members.Database;
+namespace Infrastructure.Data.Members;
 
-public class MemberAdapter(IDbOperations context, IUnitOfWork unitOfWork) : Repository<Member>(context, unitOfWork), MemberPort
+public class MemberRepository(IDbOperations context, IUnitOfWork unitOfWork) : Repository<Member>(context, unitOfWork), IMemberRepository
 {
     public async Task Create(Member member, CancellationToken ct)
     {
