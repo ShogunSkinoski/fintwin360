@@ -4,7 +4,7 @@ namespace Domain.Members.ValueObjects
 {
     public enum EmploymentIndustry
     {
-        Agriculture,
+        Agriculture = 1,
         Mining,
         Construction,
         Manufacturing,
@@ -31,14 +31,14 @@ namespace Domain.Members.ValueObjects
 
     public enum EmploymentStatus
     {
-        Employed,
+        Employed = 1,
         Unemployed,
         Student,
         Retired,
         Other
     }
 
-    public class EmploymentInformation
+    public sealed record EmploymentInformation
     {
         protected EmploymentInformation() { } // This constructor is for EF Core
 
@@ -46,11 +46,6 @@ namespace Domain.Members.ValueObjects
         {
             EmploymentIndustry = industry;
             Status = status;
-        }
-
-        public static EmploymentInformation Create(EmploymentIndustry industry, EmploymentStatus status)
-        {
-            return new EmploymentInformation(industry, status);
         }
 
         public EmploymentIndustry EmploymentIndustry { get; private set; }

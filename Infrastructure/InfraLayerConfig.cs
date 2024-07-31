@@ -1,4 +1,6 @@
-﻿using Domain.Members.Repository;
+﻿using Application.Common.Abstractions;
+using Domain.Members.Repository;
+using Infrastructure.Authentication;
 using Infrastructure.Data.Members;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -39,6 +41,7 @@ public static class InfraLayerConfig
         services.AddScoped<IDbOperations, DbOperations>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IMemberRepository, MemberRepository>();
+        services.AddScoped<IJwtProvider, JwtProvider>();
 
     }
 }

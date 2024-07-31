@@ -7,6 +7,8 @@ builder.Services.AppConfiguration(builder.Configuration);
 
 var app = builder.Build();
 
+app.UseAuthentication();
+
 var apiGroup = app.MapGroup("/api");
 var v1Group = apiGroup.MapGroup("/v1");
 v1Group.MapMemberEndpoints();

@@ -1,4 +1,4 @@
-﻿using Application.Members.Commands;
+﻿using Application.Members.Commands.CreateMember;
 
 namespace WebAPI.V1.Members.Endpoints.Handlers
 {

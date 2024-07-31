@@ -3,7 +3,7 @@ namespace Domain.Members.ValueObjects
 {
     public enum EducationLevelCode
     {
-        None,
+        None=1,
         Primary,
         Secondary,
         Tertiary,

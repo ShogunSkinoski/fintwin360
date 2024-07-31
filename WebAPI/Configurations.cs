@@ -1,6 +1,8 @@
 ﻿using Domain;
+using Domain.Members.Model;
 using Infrastructure;
-using System.Reflection;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using WebAPI.Options;
 using WebAPI.V1.Members.Endpoints;
 
 namespace WebAPI;
@@ -11,9 +13,16 @@ internal static class Configurations
     {
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
-        services.AddAutoMapperProfilesFromApplicationLayer(typeof(Program).Assembly);
-        services.AddMemberDependencies();
+        services.AddAutoMapperProfilesFromApplicationLayer(typeof(MemberProfile).Assembly);
 
+        services.ConfigureOptions<JwtOptionsSetup>();
+        services.ConfigureOptions<JwtBearerOptionsSetup>();
+
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer();
+        
+        services.AddMemberDependencies();
+       
         services.DomainLayerDependencies();
         services.ApplicationLayerDependencies();
         services.InfraLayerDependencies();

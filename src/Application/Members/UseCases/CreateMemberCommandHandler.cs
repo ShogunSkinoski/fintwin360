@@ -1,10 +1,10 @@
 ﻿using SharedKernel.Abstractions;
-using Application.Members.Commands;
 using FluentResults;
 using AutoMapper;
 using Domain.Members.Model;
 using FluentValidation;
 using Domain.Members.Repository;
+using Application.Members.Commands.CreateMember;
 
 namespace Application.Members.UseCases;
 

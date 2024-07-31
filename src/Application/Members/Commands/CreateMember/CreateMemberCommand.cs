@@ -1,9 +1,9 @@
 ﻿using FluentResults;
 using SharedKernel.Abstractions;
 
-namespace Application.Members.Commands;
+namespace Application.Members.Commands.CreateMember;
 
-public sealed record CreateMemberCommand (
+public sealed record CreateMemberCommand(
     string Name,
     string Surname,
     string Email,

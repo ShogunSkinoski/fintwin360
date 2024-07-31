@@ -1,4 +1,4 @@
-﻿using Application.Members.Commands;
+﻿using Application.Members.Commands.CreateMember;
 using FluentResults;
 using SharedKernel.Abstractions;
 

@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Application.Common;
-using Application.Members.Commands;
+using Application.Members.Commands.CreateMember;
+using Application.Members.Commands.ValidateMember;
 using AutoMapper;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,6 +35,7 @@ public static class ApplicationLayerConfig
 
         services.AddScoped<ICommandPublisher, CommandPublisher>();
         services.AddTransient<IValidator<CreateMemberCommand>, CreateMemberCommandValidator>();
+        services.AddTransient<IValidator<ValidateMemberCommand>, ValidateMemberCommandValidator>();
     }
     public static void AddAutoMapperProfilesFromApplicationLayer(this IServiceCollection services, Assembly applicationAssembly)
     {

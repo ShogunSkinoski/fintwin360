@@ -5,14 +5,14 @@ namespace Domain.Members.ValueObjects
 
     public enum ResidantialStatus
     {
-        HomeOwner,
+        HomeOwner = 1,
         Renter,
         Other
     }
 
     public enum ResidantialType
     {
-        House,
+        House = 1,
         Apartment,
         Condo,
         Other

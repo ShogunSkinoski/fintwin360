@@ -2,7 +2,7 @@
 using Domain.Members.Model;
 using Domain.Members.ValueObjects;
 
-namespace Application.Members.Commands;
+namespace Application.Members.Commands.CreateMember;
 
 public class MemberMappingProfile : Profile
 {

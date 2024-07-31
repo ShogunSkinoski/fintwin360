@@ -1,5 +1,4 @@
-﻿
-namespace SharedKernel.Primitives;
+﻿namespace SharedKernel.Primitives;
 
 public abstract class AggregateRoot : Entity
 {

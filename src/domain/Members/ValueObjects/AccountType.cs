@@ -2,7 +2,7 @@
 
 public enum AccountType
 {
-    Standard,
+    Standard=1,
     Premium,
     Family,
     Business
