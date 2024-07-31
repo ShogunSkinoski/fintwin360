@@ -15,4 +15,8 @@
     <ProjectReference Include="..\sharedkernel\SharedKernel.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Accounts\Repository\" />
+  </ItemGroup>
+
 </Project>

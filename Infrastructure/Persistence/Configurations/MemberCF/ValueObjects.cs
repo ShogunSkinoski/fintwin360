@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Domain.Members.ValueObjects;
 using Domain.Members.Model;
+using Domain.Common.ValueObjects;
 
 namespace Infrastructure.Persistence.Configurations.ValueObjects;
 

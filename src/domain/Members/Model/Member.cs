@@ -1,4 +1,5 @@
-﻿using Domain.Members.ValueObjects;
+﻿using Domain.Common.ValueObjects;
+using Domain.Members.ValueObjects;
 using SharedKernel.Abstractions;
 using SharedKernel.Common;
 using SharedKernel.Primitives;

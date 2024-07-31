@@ -1,6 +1,6 @@
-﻿namespace Domain.Members.ValueObjects;
+﻿namespace Domain.Common.ValueObjects;
 
-public sealed record Address 
+public sealed record Address
 {
     public Address(string street, string city, string country)
     {
@@ -14,5 +14,5 @@ public sealed record Address
     public string Country { get; private set; }
     public float? Latitude { get; internal set; }
     public float? Longitude { get; internal set; }
-    
+
 }
