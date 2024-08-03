@@ -47,5 +47,11 @@ public class MemberConfiguration : IEntityTypeConfiguration<Member>
             .WithOne(mp => mp.Member)
             .HasForeignKey<MemberProfile>(mp => mp.MemberId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        // Configure the relationship with Account
+        builder.HasMany(m => m.Accounts)
+            .WithOne(a => a.Member)
+            .HasForeignKey(a => a.MemberId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

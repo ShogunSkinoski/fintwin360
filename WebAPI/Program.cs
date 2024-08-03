@@ -1,4 +1,5 @@
 using WebAPI;
+using WebAPI.V1.Accounts;
 using WebAPI.V1.Members.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,7 @@ app.UseAuthentication();
 var apiGroup = app.MapGroup("/api");
 var v1Group = apiGroup.MapGroup("/v1");
 v1Group.MapMemberEndpoints();
+v1Group.MapAccountEndpoints();
 
 
 // Configure the HTTP request pipeline.

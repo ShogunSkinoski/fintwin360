@@ -6,7 +6,8 @@ namespace Domain.Accounts.Model;
 
 public class Merchant : Entity, IDeletableEntity, IAuditableEntity
 {
-    protected Merchant() : base(new Guid()) { }
+    protected Merchant() : base(Guid.NewGuid()) { }
+
     public Merchant(Guid id, string name, Address address, string phoneNumber)
         : base(id)
     {
@@ -14,15 +15,18 @@ public class Merchant : Entity, IDeletableEntity, IAuditableEntity
         Address = address;
         PhoneNumber = phoneNumber;
     }
+
     public string Name { get; private set; }
     public Address Address { get; private set; }
     public string PhoneNumber { get; private set; }
+    public bool IsDeleted {get; private set;}
+    public DateTime? DeletedAt { get; private set;}
+    public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
+    public DateTime? UpdatedAt { get; private set; }
 
-    public bool IsDeleted => throw new NotImplementedException();
-
-    public DateTime? DeletedAt => throw new NotImplementedException();
-
-    public DateTime CreatedAt => throw new NotImplementedException();
-
-    public DateTime? UpdatedAt => throw new NotImplementedException();
+    public static Merchant Create(string name, Address address, string phoneNumber)
+    {
+        var merchant = new Merchant(Guid.NewGuid(), name, address, phoneNumber);
+        return merchant;
+    }
 }

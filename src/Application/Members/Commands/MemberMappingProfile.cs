@@ -1,8 +1,10 @@
-﻿using AutoMapper;
+﻿using Application.Members.Commands.CreateMember;
+using AutoMapper;
+using Domain.Common.ValueObjects;
 using Domain.Members.Model;
 using Domain.Members.ValueObjects;
 
-namespace Application.Members.Commands.CreateMember;
+namespace Application.Members.Commands;
 
 public class MemberMappingProfile : Profile
 {

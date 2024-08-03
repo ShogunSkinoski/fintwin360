@@ -5,16 +5,8 @@ using Domain.Common.ValueObjects;
 
 namespace Infrastructure.Persistence.Configurations.ValueObjects;
 
-public static class ValueObjectConfigurationExtensions
+public static partial class ValueObjectConfigurationExtensions
 {
-    public static void ConfigureAddress(this OwnedNavigationBuilder<MemberProfile, Address> builder)
-    {
-        builder.Property(a => a.Street).IsRequired().HasMaxLength(200);
-        builder.Property(a => a.City).IsRequired().HasMaxLength(100);
-        builder.Property(a => a.Country).IsRequired().HasMaxLength(100);
-        builder.Property(a => a.Latitude);
-        builder.Property(a => a.Longitude);
-    }
 
     public static void ConfigureEducationInformation(this OwnedNavigationBuilder<MemberProfile, EducationInformation> builder)
     {

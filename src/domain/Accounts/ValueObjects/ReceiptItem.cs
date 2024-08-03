@@ -1,6 +1,6 @@
 ﻿namespace Domain.Accounts.ValueObjects;
 
-public sealed record ReciptItem
+public sealed record ReceiptItem
 {
     public string ItemName { get; private set; }
     public string ItemDescription { get; private set; }
@@ -10,7 +10,7 @@ public sealed record ReciptItem
     public decimal UnitPrice { get; private set; }
     public decimal TotalPrice { get; private set; }
 
-    public ReciptItem(string itemName, string itemDescription, string category, float quantity, decimal price, decimal unitPrice, decimal totalPrice)
+    public ReceiptItem(string itemName, string itemDescription, string category, float quantity, decimal price, decimal unitPrice, decimal totalPrice)
     {
         ItemName = itemName;
         ItemDescription = itemDescription;

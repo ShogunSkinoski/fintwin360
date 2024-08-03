@@ -1,5 +1,8 @@
 ﻿using System.Reflection;
+using Application.Accounts.Commands;
+using Application.Accounts.Commands.CreateAccount;
 using Application.Common;
+using Application.Members.Commands;
 using Application.Members.Commands.CreateMember;
 using Application.Members.Commands.ValidateMember;
 using AutoMapper;
@@ -25,15 +28,20 @@ public static class ApplicationLayerConfig
                 .ForEach(handler =>
                     services.AddScoped(handler.InterfaceType, handler.HandlerType)
                 );
+
         var mapperConfig = new MapperConfiguration(mc =>
         {
             mc.AddProfile(new MemberMappingProfile());
+            mc.AddProfile(new AccountMappingProfile());
         });
+
 
         IMapper mapper = mapperConfig.CreateMapper();
         services.AddSingleton(mapper);
 
         services.AddScoped<ICommandPublisher, CommandPublisher>();
+
+        services.AddTransient<IValidator<CreateAccountCommand>, CreateAccountCommandValidator>();
         services.AddTransient<IValidator<CreateMemberCommand>, CreateMemberCommandValidator>();
         services.AddTransient<IValidator<ValidateMemberCommand>, ValidateMemberCommandValidator>();
     }

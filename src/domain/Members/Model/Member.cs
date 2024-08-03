@@ -1,4 +1,5 @@
-﻿using Domain.Common.ValueObjects;
+﻿using Domain.Accounts.Model;
+using Domain.Common.ValueObjects;
 using Domain.Members.ValueObjects;
 using SharedKernel.Abstractions;
 using SharedKernel.Common;
@@ -14,6 +15,7 @@ public class Member : AggregateRoot, IDeletableEntity, IAuditableEntity
         Password = password;
         AccountType = accountType;
     } 
+    public List<Account> Accounts { get; private set; }
     public string Email { get; private set; }
     public string Password { get; private set; }
     public AccountType AccountType { get; private set; }
@@ -60,6 +62,11 @@ public class Member : AggregateRoot, IDeletableEntity, IAuditableEntity
             residentialInformation,
             familySize,
             this);
+    }
+
+    public void AddAccount(Account account)
+    {
+        Accounts.Add(account);
     }
 
 }
