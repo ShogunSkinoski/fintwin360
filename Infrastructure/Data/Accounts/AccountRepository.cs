@@ -1,5 +1,6 @@
 ﻿using Domain.Accounts.Model;
 using Domain.Accounts.Repository;
+using Domain.Accounts.ValueObjects;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Repository;
 using Microsoft.EntityFrameworkCore;
@@ -11,21 +12,24 @@ namespace Infrastructure.Data.Accounts;
 
 public class AccountRepository(IDbOperations context, IUnitOfWork unitOfWork) : Repository<Account>(context, unitOfWork), IAccountRepository
 {
-    public Task AddReceiptAsync(Guid accountId, Guid transactionId, Receipt receipt, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task AddTransactionAsync(Guid accountId, Transaction transaction, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
     public async Task Create(Account account, CancellationToken cancellationToken)
     {
         await AddAsync(account, cancellationToken);
     }
 
+    public async Task Create(Transaction transaction, CancellationToken cancellationToken)
+    {
+        await _context.Set<Transaction>().AddAsync(transaction, cancellationToken);
+    }
+
+    public async Task Create(Merchant merchant, CancellationToken cancellationToken)
+    {
+        await _context.Set<Merchant>().AddAsync(merchant, cancellationToken);
+    }
+    public async Task Create(Receipt receipt, CancellationToken cancellationToken)
+    {
+        await _context.Set<Receipt>().AddAsync(receipt, cancellationToken);
+    }
     public async Task<Account> GetAccountByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         var account = await _context.Set<Account>()
@@ -40,12 +44,6 @@ public class AccountRepository(IDbOperations context, IUnitOfWork unitOfWork) : 
         account.CalculateBalance();
         return account;
     }
-
-    public Task<Receipt> GetReceiptByIdAsync(Guid receiptId, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
     public async Task<IEnumerable<Transaction>> GetTransactionsByAccountIdAsync(Guid accountId, CancellationToken cancellationToken)
     {
         return await _context.Set<Transaction>()
@@ -53,7 +51,12 @@ public class AccountRepository(IDbOperations context, IUnitOfWork unitOfWork) : 
                 .ToListAsync(cancellationToken);
     }
 
-    public async Task UpdateAccountAsync(Account account,CancellationToken cancellationToken)
+    public Task<Receipt> GetReceiptByIdAsync(Guid receiptId, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task UpdateAsync(Account account,CancellationToken cancellationToken)
     {
         if (account == null) throw new ArgumentNullException(nameof(account));
 
@@ -67,7 +70,7 @@ public class AccountRepository(IDbOperations context, IUnitOfWork unitOfWork) : 
             var dbTransaction = dbTransactions.FirstOrDefault(t => t.Id == transaction.Id);
             if (dbTransaction == null)
             {
-                _context.Set<Transaction>().Add(transaction);
+                await Create(transaction, cancellationToken);
             }
             else
             {
@@ -75,7 +78,43 @@ public class AccountRepository(IDbOperations context, IUnitOfWork unitOfWork) : 
             }
         }
 
-        // Remove transactions that are in the database but not in the current account object
+        var receipts = account.Transactions
+                              .Select(t => t.Receipt)
+                              .Where(r => r != null)
+                              .ToList();
+
+        var merchants = receipts
+                    .Where(r => r != null)
+                    .Select(r => r.Merchant)
+                    .Where(m => m != null)
+                    .ToList();
+
+        foreach (var merchant in merchants)
+        {
+            var dbMerchant = await _context.Set<Merchant>().FirstOrDefaultAsync(m => m.Id == merchant.Id, cancellationToken);
+            if (dbMerchant == null)
+            {
+                await Create(merchant, cancellationToken);
+            }
+            else
+            {
+                _context.Set<Merchant>().Entry(dbMerchant).CurrentValues.SetValues(merchant);
+            }
+        }
+
+        foreach (var receipt in receipts)
+        {
+            var dbReceipt = await _context.Set<Receipt>().FirstOrDefaultAsync(r => r.Id == receipt.Id, cancellationToken);
+            if (dbReceipt == null)
+            {
+                await Create(receipt, cancellationToken);
+            }
+            else
+            {
+                _context.Set<Receipt>().Entry(dbReceipt).CurrentValues.SetValues(receipt);
+            }
+        }
+
         foreach (var dbTransaction in dbTransactions)
         {
             if (!account.Transactions.Any(t => t.Id == dbTransaction.Id))
@@ -85,11 +124,19 @@ public class AccountRepository(IDbOperations context, IUnitOfWork unitOfWork) : 
         }
 
         account.CalculateBalance();
+
+
         
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 
     public Task UpdateReceiptAsync(Receipt receipt, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    
+    public Task UpdateAsync(Receipt receipt, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }

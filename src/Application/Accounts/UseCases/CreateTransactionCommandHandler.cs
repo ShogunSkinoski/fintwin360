@@ -51,9 +51,18 @@ public class CreateTransactionCommandHandler : ICommandHandler<CreateTransaction
                 description: command.Description
                 );
             account.AddTransaction(incomeTransaction);
-            await _accountRepository.UpdateAccountAsync(account, cancellationToken);
+            await _accountRepository.UpdateAsync(account, cancellationToken);
             return Result.Ok(incomeTransaction.Id);
         }
-        return Result.Fail<Guid>("Transaction type is not valid");
+        var receipt = _mapper.Map<Receipt>(command.Receipt);
+        var expenseTransaction = Transaction.CreateExpense(
+            id: Guid.NewGuid(),
+            account: account,
+            receipt: receipt,
+            description: command.Description
+            );
+        account.AddTransaction(expenseTransaction);
+        await _accountRepository.UpdateAsync(account, cancellationToken);
+        return Result.Ok(expenseTransaction.Id);
     }
 }

@@ -4,13 +4,13 @@ public sealed record ReceiptItem
 {
     public string ItemName { get; set; }
     public string ItemDescription { get; set; }
-    public int Quantity { get; set; }
+    public decimal Quantity { get; set; }
     public string Unit { get; set; }
     public decimal UnitPrice { get; set; }
     public decimal TotalPrice { get; set; }
     public decimal TaxRate { get; set; }
     public string Category { get; set; }
-    public ReceiptItem(string itemName, string itemDescription, int quantity, string unit, decimal unitPrice, decimal totalPrice, decimal taxRate, string category)
+    public ReceiptItem(string itemName, string itemDescription, decimal quantity, string unit, decimal unitPrice, decimal totalPrice, decimal taxRate, string category)
     {
         ItemName = itemName;
         ItemDescription = itemDescription;

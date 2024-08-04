@@ -49,4 +49,9 @@ public class Receipt : Entity, IDeletableEntity, IAuditableEntity
         receipt.Merchant = merchant;
         return receipt;
     }
+
+    public void SetMerchant(Merchant merchant)
+    {
+        Merchant = merchant;
+    }
 }

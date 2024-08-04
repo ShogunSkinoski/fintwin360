@@ -29,7 +29,7 @@ internal class ReciptEntityConfiguration : IEntityTypeConfiguration<Receipt>
         builder.HasOne(r => r.Merchant)
                 .WithMany()
                 .HasForeignKey(r => r.MerchantId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
         builder.OwnsMany(x => x.Items, itemsBuilder =>
         {
