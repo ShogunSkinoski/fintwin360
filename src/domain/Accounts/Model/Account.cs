@@ -22,7 +22,7 @@ public class Account : AggregateRoot, IDeletableEntity, IAuditableEntity
     public bool IsDeleted { get; private set; }
     public DateTime? DeletedAt { get; private set; }
     public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
-    public DateTime? UpdatedAt { get; private set; }
+    public DateTime? UpdatedAt { get; set; }
 
     public static Account Create(Guid id, string accountName, bool isPersonal, Member member)
     {
@@ -31,7 +31,12 @@ public class Account : AggregateRoot, IDeletableEntity, IAuditableEntity
         account.SetMember(member);
         return account;
     }
-
+    public void Update(string accountName, bool isPersonal)
+    {
+        AccountName = accountName;
+        IsPersonal = isPersonal;
+        UpdatedAt = DateTime.UtcNow;
+    }
     private void SetMember(Member member)
     {
         Member = member;
@@ -43,7 +48,7 @@ public class Account : AggregateRoot, IDeletableEntity, IAuditableEntity
         CalculateBalance();
     }
 
-    private void CalculateBalance()
+    public void CalculateBalance()
     {
         Balance = Transactions.Sum(t => t.Amount * (t.TransactionType == TransactionType.Income ? 1 : -1));
     }

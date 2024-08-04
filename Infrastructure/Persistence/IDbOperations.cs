@@ -24,11 +24,12 @@ public interface IDbOperations
     Task InsertRangeAsync<TEntity>(IReadOnlyCollection<TEntity> entities, CancellationToken cancellationToken = default)
         where TEntity : Entity;
 
-    void Update<TEntity>(TEntity entity)
-        where TEntity : Entity;
+    Task UpdateAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = default) where TEntity : Entity;
+
+
 
     void Remove<TEntity>(TEntity entity)
-        where TEntity : Entity;
+            where TEntity : Entity;
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 

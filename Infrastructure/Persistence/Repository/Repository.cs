@@ -28,8 +28,8 @@ public class Repository<TEntity>(
 
     public async Task<TEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken) => await _context.GetByIdAsync<TEntity>(id, cancellationToken);
 
-    public Task UpdateAsync(TEntity entity, CancellationToken cancellationToken)
+    public async Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 }

@@ -2,23 +2,24 @@
 
 public sealed record ReceiptItem
 {
-    public string ItemName { get; private set; }
-    public string ItemDescription { get; private set; }
-    public string Category { get; private set; }
-    public float Quantity { get; private set; }
-    public decimal Price { get; private set; }
-    public decimal UnitPrice { get; private set; }
-    public decimal TotalPrice { get; private set; }
-
-    public ReceiptItem(string itemName, string itemDescription, string category, float quantity, decimal price, decimal unitPrice, decimal totalPrice)
+    public string ItemName { get; set; }
+    public string ItemDescription { get; set; }
+    public int Quantity { get; set; }
+    public string Unit { get; set; }
+    public decimal UnitPrice { get; set; }
+    public decimal TotalPrice { get; set; }
+    public decimal TaxRate { get; set; }
+    public string Category { get; set; }
+    public ReceiptItem(string itemName, string itemDescription, int quantity, string unit, decimal unitPrice, decimal totalPrice, decimal taxRate, string category)
     {
         ItemName = itemName;
         ItemDescription = itemDescription;
-        Category = category;
         Quantity = quantity;
-        Price = price;
+        Unit = unit;
         UnitPrice = unitPrice;
         TotalPrice = totalPrice;
+        TaxRate = taxRate;
+        Category = category;
     }
 
 }

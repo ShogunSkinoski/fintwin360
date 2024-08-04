@@ -44,15 +44,43 @@ public class DbOperations(ApplicationDbContext context) : IDbOperations
         throw new NotImplementedException();
     }
 
-    public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        return await _context.SaveChangesAsync(cancellationToken);
     }
 
     public DbSet<TEntity> Set<TEntity>() where TEntity : class => _context.Set<TEntity>();
 
-    public void Update<TEntity>(TEntity entity) where TEntity : Entity
+    public async Task UpdateAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = default) where TEntity : Entity
     {
-        throw new NotImplementedException();
+        if (entity == null)
+        {
+            throw new ArgumentNullException(nameof(entity));
+        }
+
+        _context.Entry(entity).State = EntityState.Modified;
+
+        try
+        {
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+        catch (DbUpdateConcurrencyException ex)
+        {
+            // Retrieve the entity that failed
+            var entry = ex.Entries.Single();
+            var databaseValues = await entry.GetDatabaseValuesAsync(cancellationToken);
+
+            if (databaseValues == null)
+            {
+                // The entity has been deleted by another user
+                throw new Exception($"{typeof(TEntity).Name} with id {entity.Id} no longer exists in the database.");
+            }
+
+            // Refresh the original values to bypass next concurrency check
+            entry.OriginalValues.SetValues(databaseValues);
+
+            // Retry the save operation
+            await _context.SaveChangesAsync(cancellationToken);
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Application.Accounts.Commands;
 using Application.Accounts.Commands.CreateAccount;
+using Application.Accounts.Commands.CreateTransaction;
 using Application.Common;
 using Application.Members.Commands;
 using Application.Members.Commands.CreateMember;
@@ -44,6 +45,7 @@ public static class ApplicationLayerConfig
         services.AddTransient<IValidator<CreateAccountCommand>, CreateAccountCommandValidator>();
         services.AddTransient<IValidator<CreateMemberCommand>, CreateMemberCommandValidator>();
         services.AddTransient<IValidator<ValidateMemberCommand>, ValidateMemberCommandValidator>();
+        services.AddTransient<IValidator<CreateTransactionCommand>, CreateTransactionCommandValidator>();
     }
     public static void AddAutoMapperProfilesFromApplicationLayer(this IServiceCollection services, Assembly applicationAssembly)
     {

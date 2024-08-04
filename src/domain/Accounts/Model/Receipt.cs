@@ -8,9 +8,8 @@ public class Receipt : Entity, IDeletableEntity, IAuditableEntity
     protected Receipt()  : base(Guid.NewGuid())
     {
     }
-    private Receipt(Guid id, Guid transactionId, Guid merchantId, PaymentMethodInfo paymentMethod) : base(id)
+    private Receipt(Guid id, Guid merchantId, PaymentMethodInfo paymentMethod) : base(id)
     {
-        TransactionId = transactionId;
         MerchantId = merchantId;
         PaymentMethod = paymentMethod;
         Items = new List<ReceiptItem>();
@@ -44,11 +43,10 @@ public class Receipt : Entity, IDeletableEntity, IAuditableEntity
         Total = Items.Sum(item => item.TotalPrice);
     }
 
-    public static Receipt Create(Guid id, Transaction transaction, Merchant merchant, PaymentMethodInfo paymentMethod)
+    public static Receipt Create(Guid id, Merchant merchant, PaymentMethodInfo paymentMethod)
     {
-        var receipt = new Receipt(id, transaction.Id, merchant.Id, paymentMethod);
+        var receipt = new Receipt(id, merchant.Id, paymentMethod);
         receipt.Merchant = merchant;
-        receipt.Transaction = transaction;
         return receipt;
     }
 }

@@ -7,6 +7,7 @@ internal static class AccountEndpointsMap
     public static RouteGroupBuilder MapAccountEndpoints(this RouteGroupBuilder routeGroupBuilder)
     {
         routeGroupBuilder.MapPost("account/create", AccountEndpoints.CreateAccountHandler);
+        routeGroupBuilder.MapPost("account/transaction", AccountEndpoints.CreateTransactionHandler);
         return routeGroupBuilder;
     }
 }
