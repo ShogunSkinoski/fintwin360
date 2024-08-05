@@ -8,6 +8,9 @@ internal static class MemberEndpointsMap
     {
         routeGroupBuilder.MapPost("member/register", MemberEndpoints.CreateMemberHandler);
         routeGroupBuilder.MapPost("member/validate", MemberEndpoints.ValidateMemberHandler);
+
+        routeGroupBuilder.MapPost("member/{memberId}/account", MemberEndpoints.CreateAccountHandler);
+        routeGroupBuilder.MapGet("member/{memberId}/account", MemberEndpoints.RetriveAccountHandler);
         return routeGroupBuilder;
     }
 }

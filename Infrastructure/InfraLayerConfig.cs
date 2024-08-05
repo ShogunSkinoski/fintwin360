@@ -44,6 +44,8 @@ public static class InfraLayerConfig
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IMemberRepository, MemberRepository>();
         services.AddScoped<IAccountRepository, AccountRepository>();
+        services.AddScoped<IAccountReadRepository, AccountReadRepository>();
+        services.AddScoped<IAccountWriteRepository, AccountWriteRepository>();
         services.AddScoped<IJwtProvider, JwtProvider>();
 
     }
