@@ -5,15 +5,14 @@ namespace WebAPI.V1.Accounts.Endpoints.Handlers
 {
     public sealed record CreateTransactionHandlerRequest
     (
-        Guid AccountId,
         decimal Amount,
         string Description,
         TransactionType TransactionType,
         ReceiptHandlerRequest? Receipt
     )
     {
-        public CreateTransactionCommand ToCommand() => new CreateTransactionCommand(
-            AccountId,
+        public CreateTransactionCommand ToCommand(Guid accountId) => new CreateTransactionCommand(
+            accountId,
             Amount,
             Description,
             TransactionType,
@@ -35,8 +34,6 @@ namespace WebAPI.V1.Accounts.Endpoints.Handlers
         public ReceiptDto ToDto() => new ReceiptDto(
             PurchaseDate,
             TotalAmount,
-            TaxAmount,
-            DiscountAmount,
             PaymentMethod.ToDto(),
             Merchant.ToDto(),
             Items.ConvertAll(item => item.ToDto())

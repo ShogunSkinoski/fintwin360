@@ -5,8 +5,7 @@ using Infrastructure.Persistence;
 using Infrastructure.Persistence.Repository;
 using Microsoft.EntityFrameworkCore;
 using SharedKernel.Abstractions;
-using SharedKernel.Primitives;
-using System.Threading;
+
 
 namespace Infrastructure.Data.Accounts;
 
@@ -44,10 +43,29 @@ public class AccountRepository(IDbOperations context, IUnitOfWork unitOfWork) : 
         account.CalculateBalance();
         return account;
     }
-    public async Task<IEnumerable<Transaction>> GetTransactionsByAccountIdAsync(Guid accountId, CancellationToken cancellationToken)
+    public async Task<IEnumerable<Transaction>> GetTransactionsByAccountIdAsync(
+        Guid accountId,
+        DateTime? startDate,
+        DateTime? endDate,
+        TransactionType? transactionType,
+        CancellationToken cancellationToken)
     {
         return await _context.Set<Transaction>()
-                .Where(t => t.AccountId == accountId)
+                .Where(t =>
+                    t.AccountId == accountId &&
+                    (
+                    (startDate == null ? true : startDate <= t.CreatedAt) &&
+                    (endDate == null ? true : endDate >= t.CreatedAt)
+                    ) &&
+                    (transactionType == null ? true : t.TransactionType == transactionType)
+                )
+                .Include(t => t.Receipt)
+                    .ThenInclude(r => r.PaymentMethod)
+                .Include(t => t.Receipt)
+                    .ThenInclude(r => r.Merchant)
+                .Include(t => t.Receipt)
+                    .ThenInclude(r => r.Items)
+                 .OrderByDescending(t => t.CreatedAt)
                 .ToListAsync(cancellationToken);
     }
 
@@ -63,7 +81,7 @@ public class AccountRepository(IDbOperations context, IUnitOfWork unitOfWork) : 
         var entry = _context.Set<Account>().Entry(account);
         entry.State = EntityState.Modified;
 
-        var dbTransactions = await GetTransactionsByAccountIdAsync(account.Id, cancellationToken);
+        var dbTransactions = await GetTransactionsByAccountIdAsync(account.Id, null,null,null,cancellationToken);
 
         foreach (var transaction in account.Transactions)
         {

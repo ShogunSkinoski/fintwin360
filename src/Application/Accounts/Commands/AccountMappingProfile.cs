@@ -1,5 +1,6 @@
 ﻿using Application.Accounts.Commands.CreateAccount;
 using Application.Accounts.Commands.CreateTransaction;
+using Application.Accounts.Commands.RetriveTransaction;
 using AutoMapper;
 using Domain.Accounts.Model;
 using Domain.Accounts.ValueObjects;
@@ -47,7 +48,7 @@ public class AccountMappingProfile : Profile
                     recipt.AddReceiptItem(receiptItem);
                 }
                 return recipt;
-            });
+            }).ReverseMap();
 
         CreateMap<MerchantDto, Merchant>()
             .ConstructUsing((dto, ctx) =>
@@ -85,5 +86,62 @@ public class AccountMappingProfile : Profile
                     category: dto.Category
                     );
             });
+
+        CreateMap<Receipt, ReceiptDto>()
+            .ConstructUsing((src, ctx) => new ReceiptDto(
+                src.CreatedAt,
+                src.Total,
+                ctx.Mapper.Map<PaymentMethodDto>(src.PaymentMethod),
+                ctx.Mapper.Map<MerchantDto>(src.Merchant),
+                ctx.Mapper.Map<List<ItemDto>>(src.Items)
+            ));
+
+        CreateMap<PaymentMethodInfo, PaymentMethodDto>()
+            .ConstructUsing((src, ctx) => new PaymentMethodDto(
+                src.Type,
+                src.Last4
+            ));
+
+        CreateMap<Merchant, MerchantDto>()
+            .ConstructUsing((src, ctx) => new MerchantDto(
+                src.Name,
+                src.Address.Country,
+                src.Address.City,
+                src.Address.Street,
+                src.PhoneNumber
+            ));
+
+        CreateMap<ReceiptItem, ItemDto>()
+            .ConstructUsing((src, ctx) => new ItemDto(
+                src.ItemName,
+                src.ItemDescription,
+                src.Category,
+                src.Unit,
+                src.Quantity,
+                src.UnitPrice,
+                src.TotalPrice,
+                src.TaxRate
+            ));
+
+        CreateMap<Transaction, RetriveTransactionDto>()
+         .ConstructUsing((src, ctx) => new RetriveTransactionDto(
+             src.Id,
+             src.AccountId,
+             src.Amount,
+             src.Description,
+             src.TransactionType,
+             src.CreatedAt,
+             src.UpdatedAt,
+             src.Receipt != null ? ctx.Mapper.Map<ReceiptDto>(src.Receipt) : null
+         ));
+
+        CreateMap<Receipt, ReceiptDto>()
+            .ConstructUsing((src, ctx) => new ReceiptDto(
+                src.CreatedAt,
+                src.Total,
+                ctx.Mapper.Map<PaymentMethodDto>(src.PaymentMethod),
+                ctx.Mapper.Map<MerchantDto>(src.Merchant),
+                ctx.Mapper.Map<List<ItemDto>>(src.Items)
+            ));
     }
 }

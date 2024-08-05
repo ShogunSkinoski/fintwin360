@@ -46,6 +46,7 @@ public static class ApplicationLayerConfig
         services.AddTransient<IValidator<CreateMemberCommand>, CreateMemberCommandValidator>();
         services.AddTransient<IValidator<ValidateMemberCommand>, ValidateMemberCommandValidator>();
         services.AddTransient<IValidator<CreateTransactionCommand>, CreateTransactionCommandValidator>();
+        
     }
     public static void AddAutoMapperProfilesFromApplicationLayer(this IServiceCollection services, Assembly applicationAssembly)
     {

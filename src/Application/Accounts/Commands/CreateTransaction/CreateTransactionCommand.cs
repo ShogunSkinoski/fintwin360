@@ -15,8 +15,6 @@ public sealed record CreateTransactionCommand(
 public sealed record ReceiptDto(
     DateTime PurchaseDate,
     decimal TotalAmount,
-    decimal TaxAmount     ,
-    decimal DiscountAmount,
     PaymentMethodDto PaymentMethod,
     MerchantDto Merchant,
     List<ItemDto> Items
