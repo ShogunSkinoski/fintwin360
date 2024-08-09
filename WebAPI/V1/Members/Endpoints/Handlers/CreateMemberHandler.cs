@@ -4,7 +4,7 @@ using SharedKernel.Abstractions;
 
 namespace WebAPI.V1.Members.Endpoints.Handlers;
 
-public static partial class MemberEndpoints 
+internal static partial class MemberEndpoints
 { 
     public static async Task<IResult> CreateMemberHandler(
             CreateMemberHandlerRequest request,

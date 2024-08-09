@@ -143,5 +143,17 @@ public class AccountMappingProfile : Profile
                 ctx.Mapper.Map<MerchantDto>(src.Merchant),
                 ctx.Mapper.Map<List<ItemDto>>(src.Items)
             ));
+
+        CreateMap<Account, RetriveAccountDto>()
+            .ConstructUsing((src, ctx) =>
+            {
+                return new RetriveAccountDto(
+                    AccountId: src.Id,
+                    AccountName : src.AccountName,
+                    Balance: src.Balance,
+                    IsPersonal: src.IsPersonal,
+                    CreatedAt: src.CreatedAt
+                );
+            });
     }
 }
