@@ -15,6 +15,7 @@ public class RetriveTransactionDetailCommandHandler : ICommandHandler<RetriveTra
     public RetriveTransactionDetailCommandHandler(IAccountRepository accountRepository, IMapper mapper)
     {
         _accountRepository = accountRepository;
+
         _mapper = mapper;
     }
     public async Task<Result<ReceiptDto>> Handle(RetriveTransactionDetailCommand command, CancellationToken cancellationToken)
