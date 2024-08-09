@@ -83,7 +83,8 @@ public class AccountMappingProfile : Profile
                     unitPrice: dto.UnitPrice,
                     totalPrice: dto.TotalPrice,
                     taxRate: dto.TaxRate,
-                    category: dto.Category
+                    category: dto.Category,
+                    generalCategory: dto.GeneralCategory
                     );
             });
 
@@ -116,6 +117,7 @@ public class AccountMappingProfile : Profile
                 src.ItemName,
                 src.ItemDescription,
                 src.Category,
+                src.GeneralCategory,
                 src.Unit,
                 src.Quantity,
                 src.UnitPrice,

@@ -66,6 +66,7 @@ namespace WebAPI.V1.Accounts.Endpoints.Handlers
         string ItemName,
         string ItemDescription,
         string Category,
+        string GeneralCategory,
         string Unit,
         decimal Quantity,
         decimal UnitPrice,
@@ -73,6 +74,6 @@ namespace WebAPI.V1.Accounts.Endpoints.Handlers
         decimal TaxRate
     )
     {
-        public ItemDto ToDto() => new ItemDto(ItemName, ItemDescription, Category, Unit, Quantity, UnitPrice, TotalPrice, TaxRate);
+        public ItemDto ToDto() => new ItemDto(ItemName, ItemDescription, Category, GeneralCategory, Unit, Quantity, UnitPrice, TotalPrice, TaxRate);
     }
 }

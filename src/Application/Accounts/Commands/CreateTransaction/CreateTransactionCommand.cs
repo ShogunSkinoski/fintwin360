@@ -36,6 +36,7 @@ public sealed record ItemDto(
         string ItemName,
         string ItemDescription,
         string Category,
+        string GeneralCategory,
         string Unit,
         decimal Quantity,
         decimal UnitPrice,

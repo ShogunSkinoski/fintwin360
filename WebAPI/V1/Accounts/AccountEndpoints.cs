@@ -8,6 +8,7 @@ internal static class AccountEndpointsMap
     {
         routeGroupBuilder.MapPost("account/{accountId}/transaction", AccountEndpoints.CreateTransactionHandler);
         routeGroupBuilder.MapGet("account/{accountId}/transaction", AccountEndpoints.RetriveTransactionHandler);
+        routeGroupBuilder.MapGet("account/{accountId}/general-categories", AccountEndpoints.RetriveGeneralCategoriesHandler);
         return routeGroupBuilder;
     }
 }

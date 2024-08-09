@@ -10,7 +10,8 @@ public sealed record ReceiptItem
     public decimal TotalPrice { get; set; }
     public decimal TaxRate { get; set; }
     public string Category { get; set; }
-    public ReceiptItem(string itemName, string itemDescription, decimal quantity, string unit, decimal unitPrice, decimal totalPrice, decimal taxRate, string category)
+    public string GeneralCategory { get; set; }
+    public ReceiptItem(string itemName, string itemDescription, decimal quantity, string unit, decimal unitPrice, decimal totalPrice, decimal taxRate, string category, string generalCategory)
     {
         ItemName = itemName;
         ItemDescription = itemDescription;
@@ -20,6 +21,7 @@ public sealed record ReceiptItem
         TotalPrice = totalPrice;
         TaxRate = taxRate;
         Category = category;
+        GeneralCategory = generalCategory;
     }
 
 }

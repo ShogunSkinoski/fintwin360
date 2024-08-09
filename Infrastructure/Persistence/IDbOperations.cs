@@ -26,8 +26,6 @@ public interface IDbOperations
 
     Task UpdateAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = default) where TEntity : Entity;
 
-
-
     void Remove<TEntity>(TEntity entity)
             where TEntity : Entity;
 

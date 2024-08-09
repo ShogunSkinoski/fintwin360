@@ -90,7 +90,7 @@ public class AccountWriteRepository : IAccountWriteRepository
         {
             var dbReceipt = await _context.Set<Receipt>().FirstOrDefaultAsync(r => r!.Id == receipt!.Id, cancellationToken);
             if (dbReceipt == null)
-                await _context.Set<Receipt>().AddAsync(receipt!, cancellationToken);
+                await Create(receipt!, cancellationToken);
             else
                 _context.Set<Receipt>().Entry(dbReceipt).CurrentValues.SetValues(receipt);
         }

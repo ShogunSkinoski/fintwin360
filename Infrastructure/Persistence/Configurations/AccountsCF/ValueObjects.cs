@@ -11,6 +11,7 @@ public static partial class ValueObjectConfigurationExtensions
     {
         builder.Property(item => item.ItemName).IsRequired().HasMaxLength(100);
         builder.Property(item => item.Category).IsRequired().HasMaxLength(50);
+        builder.Property(item => item.GeneralCategory).IsRequired().HasMaxLength(50);
         builder.Property(item => item.ItemDescription).HasMaxLength(200);
         builder.Property(item => item.Unit).IsRequired().HasMaxLength(50);
 
