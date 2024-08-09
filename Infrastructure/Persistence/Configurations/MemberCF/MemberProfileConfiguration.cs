@@ -14,6 +14,7 @@ public class MemberProfileConfiguration : IEntityTypeConfiguration<MemberProfile
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Name).IsRequired().HasMaxLength(100);
         builder.Property(x => x.Surname).IsRequired().HasMaxLength(100);
+        builder.Property(x => x.EconomicLevelId);
         builder.Property(x => x.CreatedAt).IsRequired();
         builder.Property(x => x.UpdatedAt);
         builder.Property(x => x.IsDeleted).IsRequired();

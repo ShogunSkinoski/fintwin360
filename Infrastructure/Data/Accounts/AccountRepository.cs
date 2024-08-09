@@ -3,6 +3,7 @@ using Domain.Accounts.Repository;
 using Domain.Accounts.ValueObjects;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Repository;
+using Microsoft.EntityFrameworkCore;
 using SharedKernel.Abstractions;
 using SharedKernel.Primitives;
 
@@ -42,5 +43,11 @@ public class AccountRepository : Repository<Account>, IAccountRepository
         => _writeRepository.UpdateAsync(account, cancellationToken);
 
     public Task<Receipt> GetReceiptByIdAsync(Guid receiptId, CancellationToken cancellationToken)
-        => _readRepository.GetReceiptByIdAsync(receiptId, cancellationToken);    
+        => _readRepository.GetReceiptByIdAsync(receiptId, cancellationToken);
+    public async Task<Receipt?> GetReceiptByTransactionId(Guid transactionId, CancellationToken cancellationToken)
+    {
+        return await _context.Set<Receipt>()
+            .Where(Receipt => Receipt.TransactionId == transactionId)
+            .Include(ri => ri.Items).FirstOrDefaultAsync(cancellationToken);
+    }
 }
