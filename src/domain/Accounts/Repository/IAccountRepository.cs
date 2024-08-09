@@ -18,7 +18,7 @@ public interface IAccountRepository
         TransactionType? transactionType,
         CancellationToken cancellationToken);
     Task<Receipt> GetReceiptByIdAsync(Guid receiptId, CancellationToken cancellationToken);
-
+    Task<Receipt> GetReceiptByTransactionId(Guid transactionId, CancellationToken cancellationToken);
 
     Task UpdateAsync(Account account, CancellationToken cancellationToken);
     Task UpdateAsync(Receipt receipt, CancellationToken cancellationToken);

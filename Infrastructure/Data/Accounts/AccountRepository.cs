@@ -158,4 +158,11 @@ public class AccountRepository(IDbOperations context, IUnitOfWork unitOfWork) : 
     {
         throw new NotImplementedException();
     }
+
+    public async Task<Receipt?> GetReceiptByTransactionId(Guid transactionId, CancellationToken cancellationToken)
+    {
+        return await _context.Set<Receipt>()
+            .Where(Receipt=>Receipt.TransactionId==transactionId)
+            .Include(ri=>ri.Items).FirstOrDefaultAsync(cancellationToken);
+    }
 }

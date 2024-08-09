@@ -55,6 +55,7 @@ public class MemberProfile : Entity, IAuditableEntity, IDeletableEntity
     public Address Address { get; private set; }
     public ResidentialInformation ResidentialInformation { get; private set; }
     public FamilySize FamilySize { get; private set; }
+    public int? EconomicLevelId { get; private set; }
     public Member Member { get; private set; }
     public Guid MemberId { get; private set; }
     public DateTime CreatedAt { get; private set; }
@@ -66,5 +67,9 @@ public class MemberProfile : Entity, IAuditableEntity, IDeletableEntity
     {
         Address.Latitude = latitude;
         Address.Longitude = longitude;
+    }
+    public void SetEconomicLevel(int economicLevel)
+    {
+        EconomicLevelId = economicLevel;
     }
 }
