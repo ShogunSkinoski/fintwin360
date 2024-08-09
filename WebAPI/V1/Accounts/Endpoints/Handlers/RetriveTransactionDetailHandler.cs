@@ -17,6 +17,7 @@ namespace WebAPI.V1.Accounts.Endpoints.Handlers
             if(!Guid.TryParse(transactionId, out var id)) 
             {
                 return Results.BadRequest("Bad transaction id.");
+
             }
             RetriveTransactionDetailCommand command = new RetriveTransactionDetailCommand(id);
             var result = await publisher.Publish<Result<ReceiptDto>, RetriveTransactionDetailCommand>(command, cancellationToken);
