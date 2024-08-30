@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240806170904_EducationLevelId_Added")]
-    partial class EducationLevelId_Added
+    [Migration("20240827205558_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -178,6 +178,66 @@ namespace Infrastructure.Persistence.Migrations
                     b.HasIndex("AccountId");
 
                     b.ToTable("Transactions", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.ChatBot.Model.ChatMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasMaxLength(4096)
+                        .HasColumnType("varchar(4096)");
+
+                    b.Property<string>("SenderType")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<Guid>("SessionId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SessionId");
+
+                    b.HasIndex("SessionId", "SenderType");
+
+                    b.ToTable("ChatMessages", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.ChatBot.Model.ChatSession", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("AccountId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("EndTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
+
+                    b.HasIndex("EndTime");
+
+                    b.ToTable("ChatSessions", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Members.Model.Member", b =>
@@ -385,6 +445,11 @@ namespace Infrastructure.Persistence.Migrations
                                 .HasMaxLength(50)
                                 .HasColumnType("varchar(50)");
 
+                            b1.Property<string>("GeneralCategory")
+                                .IsRequired()
+                                .HasMaxLength(50)
+                                .HasColumnType("varchar(50)");
+
                             b1.Property<string>("ItemDescription")
                                 .IsRequired()
                                 .HasMaxLength(200)
@@ -434,6 +499,28 @@ namespace Infrastructure.Persistence.Migrations
                 {
                     b.HasOne("Domain.Accounts.Model.Account", "Account")
                         .WithMany("Transactions")
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+                });
+
+            modelBuilder.Entity("Domain.ChatBot.Model.ChatMessage", b =>
+                {
+                    b.HasOne("Domain.ChatBot.Model.ChatSession", "ChatSession")
+                        .WithMany("Messages")
+                        .HasForeignKey("SessionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ChatSession");
+                });
+
+            modelBuilder.Entity("Domain.ChatBot.Model.ChatSession", b =>
+                {
+                    b.HasOne("Domain.Accounts.Model.Account", "Account")
+                        .WithMany()
                         .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -594,6 +681,11 @@ namespace Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Domain.Accounts.Model.Transaction", b =>
                 {
                     b.Navigation("Receipt");
+                });
+
+            modelBuilder.Entity("Domain.ChatBot.Model.ChatSession", b =>
+                {
+                    b.Navigation("Messages");
                 });
 
             modelBuilder.Entity("Domain.Members.Model.Member", b =>

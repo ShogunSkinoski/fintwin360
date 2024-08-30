@@ -27,6 +27,10 @@ public class RetriveGeneralCategoriesCommandHandler : ICommandHandler<RetriveGen
         Dictionary<string, decimal> categories = new Dictionary<string, decimal>();
         foreach(var reciept in receipts)
         {
+            if(reciept == null)
+            {
+                continue;
+            }
             foreach(var item in reciept!.Items)
             {
                 categories[item.GeneralCategory] = categories.ContainsKey(item.GeneralCategory) ? categories[item.GeneralCategory] + item.TotalPrice : item.TotalPrice;

@@ -3,6 +3,7 @@ using Domain.Accounts.Repository;
 using Domain.Members.Repository;
 using Infrastructure.Authentication;
 using Infrastructure.Data.Accounts;
+using Infrastructure.Data.ChatBot;
 using Infrastructure.Data.Members;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -46,6 +47,8 @@ public static class InfraLayerConfig
         services.AddScoped<IAccountRepository, AccountRepository>();
         services.AddScoped<IAccountReadRepository, AccountReadRepository>();
         services.AddScoped<IAccountWriteRepository, AccountWriteRepository>();
+        services.AddScoped<IChatMessageRepository, ChatMessageRepository>();
+        services.AddScoped<IChatSessionRepository, ChatSessionRepository>();
         services.AddScoped<IJwtProvider, JwtProvider>();
 
     }

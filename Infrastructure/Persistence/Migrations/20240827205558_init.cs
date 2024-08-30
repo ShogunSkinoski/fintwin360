@@ -110,6 +110,7 @@ namespace Infrastructure.Persistence.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Surname = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    EconomicLevelId = table.Column<int>(type: "int", nullable: true),
                     MemberId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
@@ -151,6 +152,28 @@ namespace Infrastructure.Persistence.Migrations
                         principalTable: "Merchants",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "ChatSessions",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    AccountId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    EndTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ChatSessions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ChatSessions_Accounts_AccountId",
+                        column: x => x.AccountId,
+                        principalTable: "Accounts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -292,6 +315,31 @@ namespace Infrastructure.Persistence.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "ChatMessages",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    SessionId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    SenderType = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Message = table.Column<string>(type: "varchar(4096)", maxLength: 4096, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ChatMessages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ChatMessages_ChatSessions_SessionId",
+                        column: x => x.SessionId,
+                        principalTable: "ChatSessions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Receipts",
                 columns: table => new
                 {
@@ -344,6 +392,8 @@ namespace Infrastructure.Persistence.Migrations
                     TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     TaxRate = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Category = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    GeneralCategory = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
@@ -379,6 +429,26 @@ namespace Infrastructure.Persistence.Migrations
                 column: "MemberId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ChatMessages_SessionId",
+                table: "ChatMessages",
+                column: "SessionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ChatMessages_SessionId_SenderType",
+                table: "ChatMessages",
+                columns: new[] { "SessionId", "SenderType" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ChatSessions_AccountId",
+                table: "ChatSessions",
+                column: "AccountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ChatSessions_EndTime",
+                table: "ChatSessions",
+                column: "EndTime");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_MemberProfiles_MemberId",
                 table: "MemberProfiles",
                 column: "MemberId",
@@ -411,6 +481,9 @@ namespace Infrastructure.Persistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "ChatMessages");
+
+            migrationBuilder.DropTable(
                 name: "DataProtectionKeys");
 
             migrationBuilder.DropTable(
@@ -433,6 +506,9 @@ namespace Infrastructure.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "ResidentialInformation");
+
+            migrationBuilder.DropTable(
+                name: "ChatSessions");
 
             migrationBuilder.DropTable(
                 name: "Receipts");

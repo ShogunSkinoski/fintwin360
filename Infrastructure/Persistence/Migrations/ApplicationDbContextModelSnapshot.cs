@@ -177,6 +177,66 @@ namespace Infrastructure.Persistence.Migrations
                     b.ToTable("Transactions", (string)null);
                 });
 
+            modelBuilder.Entity("Domain.ChatBot.Model.ChatMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasMaxLength(4096)
+                        .HasColumnType("varchar(4096)");
+
+                    b.Property<string>("SenderType")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<Guid>("SessionId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SessionId");
+
+                    b.HasIndex("SessionId", "SenderType");
+
+                    b.ToTable("ChatMessages", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.ChatBot.Model.ChatSession", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("AccountId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("EndTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
+
+                    b.HasIndex("EndTime");
+
+                    b.ToTable("ChatSessions", (string)null);
+                });
+
             modelBuilder.Entity("Domain.Members.Model.Member", b =>
                 {
                     b.Property<Guid>("Id")
@@ -443,6 +503,28 @@ namespace Infrastructure.Persistence.Migrations
                     b.Navigation("Account");
                 });
 
+            modelBuilder.Entity("Domain.ChatBot.Model.ChatMessage", b =>
+                {
+                    b.HasOne("Domain.ChatBot.Model.ChatSession", "ChatSession")
+                        .WithMany("Messages")
+                        .HasForeignKey("SessionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ChatSession");
+                });
+
+            modelBuilder.Entity("Domain.ChatBot.Model.ChatSession", b =>
+                {
+                    b.HasOne("Domain.Accounts.Model.Account", "Account")
+                        .WithMany()
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+                });
+
             modelBuilder.Entity("Domain.Members.Model.MemberProfile", b =>
                 {
                     b.HasOne("Domain.Members.Model.Member", "Member")
@@ -596,6 +678,11 @@ namespace Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Domain.Accounts.Model.Transaction", b =>
                 {
                     b.Navigation("Receipt");
+                });
+
+            modelBuilder.Entity("Domain.ChatBot.Model.ChatSession", b =>
+                {
+                    b.Navigation("Messages");
                 });
 
             modelBuilder.Entity("Domain.Members.Model.Member", b =>

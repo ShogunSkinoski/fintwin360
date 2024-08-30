@@ -2,6 +2,9 @@
 using Application.Accounts.Commands;
 using Application.Accounts.Commands.CreateAccount;
 using Application.Accounts.Commands.CreateTransaction;
+using Application.ChatBot;
+using Application.ChatBot.Commands.AddChatMessageCommand;
+using Application.ChatBot.Commands.StartChatSession;
 using Application.Common;
 using Application.Members.Commands;
 using Application.Members.Commands.CreateMember;
@@ -34,6 +37,7 @@ public static class ApplicationLayerConfig
         {
             mc.AddProfile(new MemberMappingProfile());
             mc.AddProfile(new AccountMappingProfile());
+            mc.AddProfile(new ChatSessionMappingProfile());
         });
 
 
@@ -46,6 +50,8 @@ public static class ApplicationLayerConfig
         services.AddTransient<IValidator<CreateMemberCommand>, CreateMemberCommandValidator>();
         services.AddTransient<IValidator<ValidateMemberCommand>, ValidateMemberCommandValidator>();
         services.AddTransient<IValidator<CreateTransactionCommand>, CreateTransactionCommandValidator>();
+        services.AddTransient<IValidator<AddChatMessageCommand>, AddChatMessageCommandValidator>();
+        services.AddTransient<IValidator<StartChatSessionCommand>, StartChatSessionCommandValidator>();
         
     }
     public static void AddAutoMapperProfilesFromApplicationLayer(this IServiceCollection services, Assembly applicationAssembly)
